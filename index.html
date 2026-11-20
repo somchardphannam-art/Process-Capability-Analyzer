@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Process Capability Analyzer V1.20</title>
+<title>Process Capability Analyzer V1.26.1</title>
 <style>
 :root{--page-bg:#eef3f9;--panel-bg:#fff;--text:#17243a;--muted:#64748b;--border:#d9e2ef;--title-bg:#f7f9fc;--table-head:#edf4fc;--accent:#2563eb;--accent-contrast:#fff;--header1:#124c7e;--header2:#237fc0}
 *{box-sizing:border-box}body{margin:0;background:var(--page-bg);color:var(--text);font:14px/1.45 Arial,"Segoe UI",sans-serif}
@@ -30,6 +30,104 @@ main{max-width:1500px;margin:16px auto;padding:0 18px}.view-tabs{display:flex;ga
 .output-actions{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 14px}.output-block{padding:12px 14px}.output-block .title{margin:0 -14px 12px}.tag{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:bold;background:var(--title-bg);color:var(--muted)}.tag.good{color:#15803d}.tag.warn{color:#b45309}.tag.bad{color:#b91c1c}
 
 #capabilityChart{background:var(--panel-bg);border:1px solid var(--border);border-radius:7px}
+
+
+.summary-graphs{padding:0 14px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.summary-card{min-width:0;border:1px solid var(--border);border-radius:8px;background:var(--panel-bg);overflow:hidden}
+.summary-card .normality-graph-canvas{height:310px}
+.summary-stats{padding:0 14px 14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.summary-table{width:100%;border-collapse:collapse;font-size:13px}
+.summary-table th,.summary-table td{border:1px solid var(--border);padding:8px;text-align:right}
+.summary-table th:first-child,.summary-table td:first-child{text-align:left}
+.summary-table th{background:var(--table-head)}
+.summary-outliers{padding:0 14px 14px}
+.summary-outliers .stats-wrap{padding:0;max-height:230px}
+
+.gs-report-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px 12px;border-bottom:2px solid var(--border);background:var(--panel-bg)}
+.gs-report-kicker{font-size:10px;letter-spacing:1.3px;font-weight:700;color:var(--muted)}
+.gs-report-header h2{font-size:22px;line-height:1.2;margin:4px 0;color:var(--text)}
+.gs-report-meta{font-size:11px;color:var(--muted)}
+.gs-report-badge{border:1px solid var(--border);border-radius:20px;padding:6px 10px;font-size:11px;font-weight:700;white-space:nowrap;background:var(--title-bg);color:var(--text)}
+.gs-report-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:12px;padding:12px}
+.gs-report-visuals,.gs-report-sidebar{display:flex;flex-direction:column;gap:8px;min-width:0}
+.gs-report-sidebar .summary-card{flex:0 0 auto}.gs-report-sidebar .normality-graph-heading{padding:6px 9px}.gs-report-sidebar .gs-compact-wrap{padding:3px 7px 5px}
+.gs-report-visuals .summary-card,.gs-report-sidebar .summary-card{border-radius:5px}
+.gs-report-visuals .normality-graph-heading,.gs-report-sidebar .normality-graph-heading{padding:7px 9px;font-size:12px}
+.gs-report-visuals .normality-graph-subtitle{padding:4px 9px 0;font-size:10px}
+.gs-hist-canvas{height:410px!important}
+.gs-compare-picker{margin:0 14px 12px;padding:11px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel-bg);color:var(--text)}
+.gs-compare-picker-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px}
+.gs-compare-picker-head span{color:var(--muted);font-size:11px}
+.gs-compare-options{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:9px}
+.gs-compare-options label{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer}
+.gs-compare-options input{accent-color:var(--accent);margin:0}
+.gs-compare-empty{font-size:11px;color:var(--muted)}
+.gs-comparison-area{padding:12px;display:flex;flex-direction:column;gap:12px}
+.gs-comparison-intro{font-size:12px;color:var(--muted);padding:9px 11px;background:var(--title-bg);border-left:3px solid var(--accent);border-radius:5px}
+.gs-comparison-grid{display:block;padding:12px}
+.gs-comparison-card{min-width:0;border:1px solid var(--border);border-radius:7px;background:var(--panel-bg);overflow:hidden}
+.gs-comparison-card-head{padding:8px 10px;background:var(--title-bg);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.gs-comparison-card-head strong{font-size:13px;color:var(--text)}
+.gs-comparison-card-head span{font-size:11px;color:var(--muted)}
+.gs-comparison-card .normality-graph-subtitle{padding:6px 10px 0;font-size:11px;color:var(--muted)}
+.gs-comparison-card canvas{display:block;width:100%;height:390px}
+
+.gs-overlay-legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:8px 12px 12px;color:var(--text);font-size:12px}
+.gs-overlay-legend-item{display:inline-flex;align-items:center;gap:7px}
+.gs-overlay-swatch{display:inline-block;width:19px;height:4px;border-radius:3px}
+.gs-overlay-note{font-size:11px;color:var(--muted);padding:0 12px 10px}
+
+.gs-comparison-table-card .stats-wrap{padding:7px}
+.gs-comparison-table-card .gs-compact-table{min-width:650px}
+@media(max-width:850px){.gs-comparison-card canvas{height:320px}}
+
+.gs-box-canvas{height:235px!important}
+.gs-ci-canvas{height:180px!important}
+.gs-compact-wrap{padding:4px 8px 7px}
+.gs-compact-table{font-size:10px}
+.gs-compact-table th,.gs-compact-table td{padding:4px 5px;white-space:normal}
+.gs-compact-table th:first-child,.gs-compact-table td:first-child{width:45%;text-align:left}
+.gs-sidebar-content{padding:7px 9px;font-size:10px;line-height:1.45;color:var(--text)}
+.gs-sidebar-content .gs-normality-status{font-weight:700;margin-bottom:3px}
+.gs-sidebar-content .gs-normality-detail{color:var(--muted)}
+.gs-report-footnote{border-top:1px solid var(--border);padding:8px 14px;font-size:9px;line-height:1.4;color:var(--muted)}
+#summaryExportArea{background:var(--panel-bg);color:var(--text);--gs-font-size:13px}
+#summaryExportArea .normality-graph-heading{font-size:calc(var(--gs-font-size) + 1px)!important}
+#summaryExportArea .normality-graph-subtitle{font-size:var(--gs-font-size)!important}
+#summaryExportArea .gs-compact-table{font-size:var(--gs-font-size)!important}
+#summaryExportArea .gs-compact-table th,#summaryExportArea .gs-compact-table td{padding:6px 7px}
+#summaryExportArea .gs-sidebar-content{font-size:var(--gs-font-size)!important}
+#summaryExportArea .gs-report-meta{font-size:var(--gs-font-size)!important}
+#summaryExportArea .gs-report-footnote{font-size:calc(var(--gs-font-size) - 2px)!important}
+.gs-appearance-controls{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:12px;margin:12px 14px;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--panel-bg)}
+.gs-section-controls{margin:0 14px 12px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel-bg);color:var(--text)}
+.gs-section-controls-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px}
+.gs-section-controls-head>span{color:var(--muted);font-size:11px}
+.gs-section-actions{margin-left:auto;display:flex;gap:6px}
+.gs-section-actions button{padding:5px 9px;font-size:11px}
+.gs-section-options{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:9px}
+.gs-section-options label{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;white-space:nowrap}
+.gs-section-options input{accent-color:var(--accent);margin:0}
+#summaryExportArea [hidden]{display:none!important}.gs-comparison-area[hidden]{display:none!important}
+#mgsReportArea{background:var(--panel-bg);color:var(--text)}
+#mgsReportArea .gs-comparison-grid{padding:12px}
+#mgsReportArea .gs-comparison-card canvas{height:390px}
+#mgsReportArea .gs-comparison-table-card{margin:0 12px 12px}
+#mgsReportArea .gs-report-header{margin-bottom:0}
+#mgsReportArea .gs-comparison-intro{margin:12px 12px 0}
+#mgsReportArea .gs-compact-table{font-size:13px}
+@media(max-width:850px){#mgsReportArea .gs-comparison-card canvas{height:280px}}
+
+.gs-appearance-controls .field{margin:0}
+.gs-appearance-controls input[type=color]{width:100%;height:38px;padding:3px}
+.gs-appearance-note{grid-column:1/-1;color:var(--muted);font-size:11px}
+@media(max-width:850px){.gs-appearance-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.gs-appearance-controls{grid-template-columns:1fr}}
+@media(max-width:850px){.gs-report-layout{grid-template-columns:1fr}.gs-report-sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.gs-report-sidebar{grid-template-columns:1fr}.gs-report-header h2{font-size:18px}.gs-report-badge{font-size:10px}}
+@media print{#summaryExportArea{width:100%!important}.gs-report-layout{grid-template-columns:minmax(0,1.65fr) minmax(250px,1fr)!important}.gs-report-header h2{font-size:20px}}
+
+@media(max-width:850px){.summary-graphs,.summary-stats{grid-template-columns:1fr}}
 
 .normality-graphs{padding:0 14px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .normality-graph-card{min-width:0;border:1px solid var(--border);border-radius:8px;background:var(--panel-bg);overflow:hidden}
@@ -66,16 +164,23 @@ main{max-width:1500px;margin:16px auto;padding:0 18px}.view-tabs{display:flex;ga
 footer{text-align:center;padding:15px;color:var(--muted);font-size:12px}
 @media(max-width:900px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.metrics{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){header{align-items:flex-start;flex-direction:column}h1{font-size:21px}.version-info{text-align:left}.fields{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.hint{width:100%;margin-left:0}}
 @media print{.theme-bar,.header-actions button,.toolbar,.run,.output-actions,footer{display:none!important}body{background:#fff;color:#111}.panel{box-shadow:none;break-inside:avoid}header{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+.gs-color-controls{display:flex;flex-wrap:wrap;gap:10px 18px;padding:12px}
+.gs-color-control{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);min-width:170px}
+.gs-color-control input[type=color]{width:38px;height:30px;padding:2px;border:1px solid var(--border);border-radius:6px;background:transparent;cursor:pointer}
+.gs-color-control.overlap{font-weight:700}
 </style>
 </head>
 <body class="theme-blue">
 <header><div><h1>Process Capability Analyzer</h1><div class="sub">Process Capability • Statistical Output • Data Worksheet</div></div>
-<div class="header-actions"><div class="version-info"><div class="version">Version V1.20</div><div class="date">Updated: 2026-11-12</div><div class="credit">Developed by Somchard</div></div><button onclick="loadDemo()">Load Demo</button><button onclick="resetAll()">Reset</button></div></header>
+<div class="header-actions"><div class="version-info"><div class="version">Version V1.26.6</div><div class="date">Updated: 2026-11-19</div><div class="credit">Developed by Somchard</div></div><button onclick="loadDemo()">Load Demo</button><button onclick="resetAll()">Reset</button></div></header>
 <div class="theme-bar">🎨 Theme <select id="themeSelect" onchange="setTheme(this.value)"><option value="blue">Blue</option><option value="light">Light</option><option value="dark">Dark</option><option value="minimal">Minimal</option><option value="pastel">Pastel</option><option value="digital">Digital</option></select></div>
 <main>
 <div class="view-tabs" role="tablist" aria-label="Analysis views">
  <button type="button" class="view-tab active" id="capabilityTab" role="tab" aria-selected="true" onclick="switchAnalysisView('capability')">📈 Process Capability Analyzer</button>
  <button type="button" class="view-tab" id="normalityTab" role="tab" aria-selected="false" onclick="switchAnalysisView('normality')">📉 Normality Test</button>
+ <button type="button" class="view-tab" id="summaryTab" role="tab" aria-selected="false" onclick="switchAnalysisView('summary')">📊 Graphical Summary</button>
+ <button type="button" class="view-tab" id="multipleSummaryTab" role="tab" aria-selected="false" onclick="switchAnalysisView('multipleSummary')">📊 Multiple Graphical Summary</button>
 </div>
 <div class="panel" id="graphPanel">
  <div class="title"><span>📈 Process Capability Analyzer</span><small>Histogram + Normal Distribution + Specification Limits</small></div>
@@ -100,24 +205,24 @@ footer{text-align:center;padding:15px;color:var(--muted);font-size:12px}
  <div class="output-actions"><button onclick="downloadGraph()">⬇️ Download Graph PNG</button><button onclick="copyGraph()">🖼️ Copy Graph Image</button></div>
 </div>
 <div class="panel" id="normalityPanel" hidden>
- <div class="title"><span>📉 Normality Test</span><small>Anderson-Darling normality test</small></div>
+ <div class="title"><span>📉 Normality Test</span><small id="normalityMethodSubtitle">Anderson-Darling normality test</small></div>
  <div class="notice" style="margin-top:14px"><strong>Important:</strong> Capability Analysis uses Normal Distribution to estimate expected performance outside specification limits. If the measurement data are not normally distributed, the calculated expected PPM / % Reject and normal-based capability interpretation may be misleading. Investigate the data distribution and consider an appropriate non-normal capability method before making decisions.</div>
- <div class="fields" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+ <div class="fields" style="grid-template-columns:repeat(4,minmax(0,1fr))">
   <div class="field"><label>Measurement Column</label><select id="normalityMeasureCol" aria-label="Normality test measurement column"></select></div>
   <div class="field"><label>Significance Level (α)</label><select id="normalityAlpha" onchange="if($('normN').textContent!=='—')runNormalityTest()"><option value="0.10">0.10</option><option value="0.05" selected>0.05</option><option value="0.01">0.01</option></select></div>
+  <div class="field"><label>Test Method</label><select id="normalityMethod" onchange="if($('normN').textContent!=='—')runNormalityTest()"><option value="ad" selected>Anderson-Darling (Normal)</option><option value="sw">Shapiro-Wilk</option><option value="rj">Ryan-Joiner (estimated P-Value)</option><option value="ks">Kolmogorov-Smirnov (Lilliefors)</option></select></div>
   <div class="field"><label>Recommendation</label><div class="tag" style="display:inline-block">α = 0.05 · Recommended for general use</div></div>
-  <div class="field"><label>Test Method</label><div class="tag">Anderson-Darling (Normal)</div></div>
  </div>
  <div class="run"><button class="primary" type="button" onclick="runNormalityTest()">▶ Run Normality Test</button></div>
  <div id="normalityExportArea" class="normality-export-area"><div id="normalityResults" class="output-block">
   <div class="metrics">
    <div class="metric"><small>Sample Size (N)</small><strong id="normN">—</strong></div>
-   <div class="metric"><small>AD Statistic</small><strong id="normAD">—</strong></div>
+   <div class="metric"><small id="normStatisticLabel">AD Statistic</small><strong id="normAD">—</strong></div>
    <div class="metric"><small>P-Value</small><strong id="normP">—</strong></div>
    <div class="metric"><small>Conclusion</small><strong id="normConclusion">Not tested</strong></div>
   </div>
   <div class="notice" id="normalityInterpretation">Select a worksheet column and run the Normality Test. This selector is independent of the Capability Analysis measurement column.</div>
-  <div class="detail" id="normalityDetails">The test evaluates whether the sample provides sufficient evidence to reject the assumption of a normal distribution. A p-value greater than α does not prove normality.</div><div class="detail">Demo tip: Load Demo, then select <strong>Non-normal Demo (Skewed)</strong> in Column B. Its p-value is designed to be near 0.05 so you can observe how the conclusion changes with α.</div>
+  <div class="detail" id="normalityDetails">The test evaluates whether the sample provides sufficient evidence to reject the assumption of a normal distribution. A p-value greater than α does not prove normality.</div><div class="detail">Demo tip: Load Demo, then select <strong>Non-normal Demo (Skewed)</strong> in Column B. Its p-value is designed to be near 0.05 so you can observe how the conclusion changes with α. For Kolmogorov-Smirnov, the Lilliefors correction is applied because the normal mean and standard deviation are estimated from the sample.</div>
  </div>
  <div class="normality-graphs" id="normalityGraphs">
   <section class="normality-graph-card">
@@ -140,6 +245,88 @@ footer{text-align:center;padding:15px;color:var(--muted);font-size:12px}
  <strong>0.01:</strong> More conservative; stronger evidence is required to reject normality.<br>
  <span style="color:var(--muted)">Select α before interpreting the result. Do not change α simply to obtain a preferred conclusion. P-Value is determined by the data; α determines the decision threshold.</span></div>
 </div>
+
+<div class="panel" id="summaryPanel" hidden>
+ <div class="title"><span>📊 Graphical Summary</span><small>Descriptive statistics • Distribution • Confidence intervals • Outlier screening</small></div>
+ <div class="fields" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+  <div class="field"><label>Measurement Column</label><select id="summaryMeasureCol" aria-label="Graphical summary measurement column"></select></div>
+  <div class="field"><label>Confidence Level</label><select id="summaryConfidence"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+  <div class="field"><label>Outlier Rule</label><div class="tag">Tukey fences · 1.5 × IQR</div></div>
+  <div class="field"><label>Data Source</label><div class="tag">Shared Data Worksheet</div></div>
+ </div>
+ <div class="run"><button class="primary" type="button" onclick="runGraphicalSummary()">▶ Generate Graphical Summary</button></div>
+ <div class="gs-appearance-controls" aria-label="Graphical summary appearance settings">
+  <div class="field"><label for="gsFontSize">Report Text Size</label><select id="gsFontSize" onchange="updateGraphicalSummaryAppearance()"><option value="12">Small</option><option value="14" selected>Medium</option><option value="16">Large</option><option value="18">Extra Large</option></select></div>
+  <div class="field"><label for="gsBarColor">Histogram Bar Color</label><input id="gsBarColor" type="color" value="#4f91c4" onchange="updateGraphicalSummaryAppearance()"></div>
+  <div class="field"><label for="gsCurveColor">Normal Curve Color</label><input id="gsCurveColor" type="color" value="#0f9f75" onchange="updateGraphicalSummaryAppearance()"></div>
+  <div class="field"><label for="gsBoxColor">Boxplot Color</label><input id="gsBoxColor" type="color" value="#2563eb" onchange="updateGraphicalSummaryAppearance()"></div>
+  <div class="field"><label for="gsCIColor">Confidence Interval Color</label><input id="gsCIColor" type="color" value="#2563eb" onchange="updateGraphicalSummaryAppearance()"></div>
+  <div class="gs-appearance-note">Appearance settings affect the Graphical Summary report and its Copy / Download / Print output. They do not change the underlying statistical calculations.</div>
+ </div>
+ <div class="gs-section-controls" aria-label="Choose which statistical information sections to show">
+  <div class="gs-section-controls-head"><strong>Report Sections</strong><span>Choose which information panels appear on the right side of the report</span>
+   <div class="gs-section-actions"><button type="button" class="secondary" onclick="setGraphicalSummarySections(true)">Show All</button><button type="button" class="secondary" onclick="setGraphicalSummarySections(false)">Hide All</button></div>
+  </div>
+  <div class="gs-section-options">
+   <label><input type="checkbox" data-gs-section="Normality" checked onchange="toggleGraphicalSummarySection(this)"> Normality Test</label>
+   <label><input type="checkbox" data-gs-section="Descriptive" checked onchange="toggleGraphicalSummarySection(this)"> Descriptive Statistics</label>
+   <label><input type="checkbox" data-gs-section="Intervals" checked onchange="toggleGraphicalSummarySection(this)"> Confidence Intervals</label>
+   <label><input type="checkbox" data-gs-section="Overview" checked onchange="toggleGraphicalSummarySection(this)"> Distribution Overview</label>
+   <label><input type="checkbox" data-gs-section="Outliers" checked onchange="toggleGraphicalSummarySection(this)"> Potential Outliers</label>
+  </div>
+ </div>
+ <div id="summaryExportArea" class="normality-export-area">
+  <div class="gs-report-header">
+   <div><div class="gs-report-kicker">STATISTICAL GRAPHICAL SUMMARY</div><h2 id="summaryReportTitle">Summary Report</h2><div id="summaryReportMeta" class="gs-report-meta">Generate the report to display the selected measurement column and sample size.</div></div>
+   <div class="gs-report-badge" id="summaryConfidenceBadge">95% Confidence</div>
+  </div>
+  <div class="gs-report-layout">
+   <div class="gs-report-visuals">
+    <section class="summary-card gs-hist-card"><div class="normality-graph-heading">Histogram + Normal Curve</div><div class="normality-graph-subtitle">Observed measurement distribution with fitted normal reference curve</div><canvas id="summaryHistogram" class="normality-graph-canvas gs-hist-canvas" role="img" aria-label="Graphical summary histogram"></canvas></section>
+    <section class="summary-card gs-box-card"><div class="normality-graph-heading">Boxplot</div><div class="normality-graph-subtitle">Median, quartiles, whiskers and potential outliers</div><canvas id="summaryBoxplot" class="normality-graph-canvas gs-box-canvas" role="img" aria-label="Measurement boxplot"></canvas></section>
+    <section class="summary-card gs-ci-card"><div class="normality-graph-heading">Confidence Interval Plot</div><div class="normality-graph-subtitle">Selected confidence level: <span id="summaryCILevel">95%</span></div><canvas id="summaryCIPlot" class="normality-graph-canvas gs-ci-canvas" role="img" aria-label="Confidence interval plot for mean and median"></canvas></section>
+   </div>
+   <aside class="gs-report-sidebar">
+    <section class="summary-card" id="gsSectionNormality"><div class="normality-graph-heading">Normality Test</div><div id="summaryNormality" class="gs-sidebar-content">Run the Normality Test for this column to include its result in this report.</div></section>
+    <section class="summary-card" id="gsSectionDescriptive"><div class="normality-graph-heading">Descriptive Statistics</div><div class="stats-wrap gs-compact-wrap"><table class="summary-table gs-compact-table"><tbody id="summaryDescriptive"><tr><td colspan="2">No summary generated.</td></tr></tbody></table></div></section>
+    <section class="summary-card" id="gsSectionIntervals"><div class="normality-graph-heading">Confidence Intervals</div><div class="stats-wrap gs-compact-wrap"><table class="summary-table gs-compact-table"><thead><tr><th>Parameter</th><th>Lower</th><th>Upper</th></tr></thead><tbody id="summaryIntervals"><tr><td colspan="3">No summary generated.</td></tr></tbody></table></div></section>
+    <section class="summary-card" id="gsSectionOverview"><div class="normality-graph-heading">Distribution Overview</div><div id="summaryOverview" class="gs-sidebar-content">Generate the summary to display key distribution indicators.</div></section>
+    <section class="summary-card" id="gsSectionOutliers"><div class="normality-graph-heading">Potential Outliers · Tukey 1.5 × IQR</div><div class="stats-wrap gs-compact-wrap"><table class="summary-table gs-compact-table"><thead><tr><th>Row</th><th>Value</th><th>Flag</th></tr></thead><tbody id="summaryOutliers"><tr><td colspan="3">No summary generated.</td></tr></tbody></table></div></section>
+   </aside>
+  </div>
+  <div class="gs-report-footnote" id="summaryMethodNotes">Confidence intervals use t, order-statistic and chi-square approximations as appropriate. Potential outliers are flagged for investigation, not automatic exclusion.</div>
+ </div>
+ <div class="output-actions normality-output-actions"><button type="button" onclick="copyGraphicalSummary()">📋 Copy Result</button><button type="button" onclick="copyGraphicalSummaryImage()">🖼️ Copy Result as Image</button><button type="button" onclick="downloadGraphicalSummaryImage()">⬇️ Download Result PNG</button><button type="button" onclick="printGraphicalSummary()">🖨 Print Result</button></div>
+</div>
+
+<div class="panel" id="multipleSummaryPanel" hidden>
+ <div class="title"><span>📊 Multiple Graphical Summary</span><small>Compare distributions across multiple worksheet measurement columns</small></div>
+ <div class="notice" style="margin-top:12px">Select two or more measurement columns. Each process will have its own Histogram + Normal Curve, while all charts share a common measurement axis and frequency scale for easier comparison.</div>
+ <div class="fields" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+  <div class="field"><label>Confidence Level</label><select id="multipleConfidence"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+  <div class="field"><label>Data Source</label><div class="tag">Shared Data Worksheet</div></div>
+  <div class="field"><label>Selection</label><div class="tag" id="multipleSelectionCount">0 columns selected</div></div>
+  <div class="field"><label>Histogram Y-Axis</label><select id="multipleYAxisMode" onchange="setMultipleYAxisMode(this.value)"><option value="count" selected>Count (N)</option><option value="percent">Relative Frequency (%)</option></select></div>
+  <div class="field"><label>Number of Bins (X-axis)</label><input id="multipleBinCount" type="number" min="5" max="50" step="1" value="12" onchange="setMultipleBinCount(this.value)"><small>5–50 bins · same boundaries for all processes</small></div>
+ </div>
+ <div class="gs-compare-picker">
+  <div class="gs-compare-picker-head"><strong>Measurement Columns</strong><span>Select at least two columns to compare their distributions side by side.</span></div>
+  <div id="multipleCompareColumns" class="gs-compare-options"><span class="gs-compare-empty">Measurement columns will appear here.</span></div>
+ </div>
+ <div class="gs-compare-picker" style="margin-top:12px">
+  <div class="gs-compare-picker-head"><strong>Graph Color Settings</strong><span>Customize process colors. Automatic overlap uses translucent color blending; manual mode adds a subtle custom tint.</span></div>
+  <div id="multipleGraphColorControls" class="gs-color-controls"><span class="gs-compare-empty">Select measurement columns to configure graph colors.</span></div>
+ </div>
+ <div class="run"><button class="primary" type="button" onclick="runMultipleGraphicalSummary()">▶ Generate Multiple Graphical Summary</button></div>
+ <div id="mgsReportArea" class="normality-export-area">
+  <div class="gs-report-header"><div><div class="gs-report-kicker">STATISTICAL GRAPHICAL SUMMARY</div><h2 id="mgsReportTitle">Multiple Process Comparison</h2><div id="mgsReportMeta" class="gs-report-meta">Select measurement columns and generate the comparison report.</div></div><div class="gs-report-badge" id="mgsConfidenceBadge">95% Confidence</div></div>
+  <div class="gs-comparison-intro">Compare process distributions on a shared measurement axis. Choose actual counts or relative frequency, and use automatic blended colors to identify overlapping regions.</div>
+  <div id="multipleComparisonGrid" class="gs-comparison-grid"></div>
+  <section class="summary-card gs-comparison-table-card"><div class="normality-graph-heading">Process Comparison Statistics</div><div class="stats-wrap gs-compact-wrap"><table class="summary-table gs-compact-table"><thead><tr><th>Measurement Column</th><th>N</th><th>Mean</th><th>StDev</th><th>Minimum</th><th>Maximum</th></tr></thead><tbody id="multipleComparisonStats"><tr><td colspan="6">No comparison generated.</td></tr></tbody></table></div></section>
+ </div>
+ <div class="output-actions normality-output-actions"><button type="button" onclick="copyMultipleGraphicalSummary()">📋 Copy Result</button><button type="button" onclick="copyMultipleGraphicalSummaryImage()">🖼️ Copy Result as Image</button><button type="button" onclick="downloadMultipleGraphicalSummaryImage()">⬇️ Download Result PNG</button><button type="button" onclick="printMultipleGraphicalSummary()">🖨 Print Result</button></div>
+</div>
+
 <div class="panel" id="setupPanel"><div class="title"><span>⚙️ Specification & Analysis Setup</span><small>Two-sided specification limits</small></div>
 <div class="fields">
 <div class="field"><label>Measurement Column</label><select id="measureCol"></select></div>
@@ -171,7 +358,7 @@ footer{text-align:center;padding:15px;color:var(--muted);font-size:12px}
 <div class="toolbar"><button onclick="addRow()">＋ Row</button><button onclick="delRow()">− Row</button><button onclick="addCol()">＋ Col</button><button onclick="delCol()">− Col</button><button id="undoBtn" onclick="undo()">↶ Undo</button><button id="redoBtn" onclick="redo()">↷ Redo</button><button onclick="clearSelected()">Clear Selected</button><button onclick="clearAll()">Clear All</button><button onclick="exportCSV()">Export CSV</button><button onclick="copySelected()">Copy Selected</button><span class="hint">Paste from Excel • Drag/Shift+Click • Enter ↓ • Tab →</span></div>
 <div class="sheet" id="sheet"></div><div class="status"><span id="sheetStatus">100 rows × 10 columns</span><span id="selectionInfo" class="selection-info">Selected: R1 × C1</span></div>
 <div class="detail">Select the measurement column in Analysis Setup. Blank and non-numeric cells are excluded from calculations. For V1.1, each row is treated as one consecutive individual measurement; subgroup-based within variation is not included yet.</div></div>
-</main><footer>Process Capability Analyzer V1.20 · Developed by Somchard · Ideas Beyond Limits</footer>
+</main><footer>Process Capability Analyzer V1.26 · Developed by Somchard · Ideas Beyond Limits</footer>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 const $=id=>document.getElementById(id), DEFAULT_R=100,DEFAULT_C=10;let R=DEFAULT_R,C=DEFAULT_C,D=[],H=[],history=[],future=[],selA={r:0,c:0},selB={r:0,c:0},drag=false,lastResult=null,lastNormality=null,editKey='',graphTitleManual=false;
@@ -223,11 +410,27 @@ function useAutomaticGraphTitle(){
 }
 
 function populateCols(){
- let old=$('measureCol').value,normalOld=$('normalityMeasureCol')?.value??old;
+ let old=$('measureCol').value,normalOld=$('normalityMeasureCol')?.value??old,summaryOld=$('summaryMeasureCol')?.value??old;
  const options=H.map((h,i)=>`<option value="${i}">${esc(h||colName(i))}</option>`).join('');
  $('measureCol').innerHTML=options;$('measureCol').value=old<C?old:'0';
  if($('normalityMeasureCol')){$('normalityMeasureCol').innerHTML=options;$('normalityMeasureCol').value=normalOld<C?normalOld:'0'}
+ if($('summaryMeasureCol')){$('summaryMeasureCol').innerHTML=options;$('summaryMeasureCol').value=summaryOld<C?summaryOld:'0'}
+ populateMultipleSummaryColumns();
  syncAutomaticGraphTitle();
+}
+function populateMultipleSummaryColumns(){
+ const host=$('multipleCompareColumns');if(!host)return;
+ const selected=new Set(Array.from(host.querySelectorAll('input:checked')).map(x=>x.value));
+ host.innerHTML=H.map((name,i)=>{
+  const label=esc(name||colName(i)),checked=selected.has(String(i));
+  return `<label><input type="checkbox" value="${i}" ${checked?'checked':''} onchange="updateMultipleSelectionCount()"> ${label}</label>`;
+ }).join('');
+ updateMultipleSelectionCount();
+}
+function updateMultipleSelectionCount(){
+ const n=document.querySelectorAll('#multipleCompareColumns input:checked').length;
+ const el=$('multipleSelectionCount');if(el)el.textContent=`${n} column${n===1?'':'s'} selected`;
+ renderMultipleGraphColorControls();
 }
 function exportCSV(){sync();let csv='\ufeff'+[H,...D].map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');downloadBlob(csv,'Process-Capability-Worksheet.csv','text/csv;charset=utf-8')}
 function copySelected(){sync();let q=range(),txt=Array.from({length:q.r2-q.r1+1},(_,i)=>D[q.r1+i].slice(q.c1,q.c2+1).join('\t')).join('\n');copyText(txt,'Selected worksheet data copied.')}
@@ -243,7 +446,9 @@ function syncToleranceFromLimits(){
  if(Number.isFinite(t)&&Number.isFinite(l)&&Number.isFinite(u)&&Math.abs((t-l)-(u-t))<1e-8){$('tolerance').value=((u-l)/2).toString()}
 }
 function setupSpecControls(){
- $('measureCol').addEventListener('change',()=>{if($('normalityMeasureCol'))$('normalityMeasureCol').value=$('measureCol').value});
+ $('measureCol').addEventListener('change',()=>{if($('normalityMeasureCol'))$('normalityMeasureCol').value=$('measureCol').value;if($('summaryMeasureCol'))$('summaryMeasureCol').value=$('measureCol').value});
+ $('normalityMeasureCol').addEventListener('change',()=>{if($('measureCol'))$('measureCol').value=$('normalityMeasureCol').value;if($('summaryMeasureCol'))$('summaryMeasureCol').value=$('normalityMeasureCol').value});
+ $('summaryMeasureCol').addEventListener('change',()=>{if($('measureCol'))$('measureCol').value=$('summaryMeasureCol').value;if($('normalityMeasureCol'))$('normalityMeasureCol').value=$('summaryMeasureCol').value});
  ['target','tolerance'].forEach(id=>$(id).addEventListener('input',()=>{if($('specMode').value==='auto')applyTolerance()}));
  $('specMode').addEventListener('change',()=>{if($('specMode').value==='auto')applyTolerance()});
  ['lsl','usl'].forEach(id=>$(id).addEventListener('input',()=>{if($('specMode').value==='manual')syncToleranceFromLimits()}));
@@ -254,16 +459,18 @@ function fmt(v){let d=+$('decimals').value;return Number.isFinite(v)?v.toFixed(d
 function mean(a){return a.reduce((s,v)=>s+v,0)/a.length}
 
 function switchAnalysisView(view){
- const cap=view==='capability';
+ const cap=view==='capability',norm=view==='normality',summary=view==='summary',multiple=view==='multipleSummary';
  $('graphPanel').hidden=!cap;
- $('normalityPanel').hidden=cap;
+ $('normalityPanel').hidden=!norm;
+ $('summaryPanel').hidden=!summary;
+ $('multipleSummaryPanel').hidden=!multiple;
  $('setupPanel').hidden=!cap;
  $('outputPanel').hidden=!cap;
- $('capabilityTab').classList.toggle('active',cap);
- $('normalityTab').classList.toggle('active',!cap);
- $('capabilityTab').setAttribute('aria-selected',String(cap));
- $('normalityTab').setAttribute('aria-selected',String(!cap));
- 
+ [['capabilityTab',cap],['normalityTab',norm],['summaryTab',summary],['multipleSummaryTab',multiple]].forEach(([id,on])=>{
+  $(id).classList.toggle('active',on);$(id).setAttribute('aria-selected',String(on));
+ });
+ if(summary&&lastGraphicalSummary)drawGraphicalSummaryCharts(lastGraphicalSummary);
+ if(multiple&&lastGraphicalComparison.length)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid');
 }
 function erfApprox(x){
  const sign=x<0?-1:1, a=Math.abs(x), t=1/(1+0.3275911*a);
@@ -311,30 +518,30 @@ function normalityCanvasSetup(id){
  const css=getComputedStyle(document.body);
  return {canvas,ctx,w,h:hgt,text:css.getPropertyValue('--text').trim()||'#17243a',muted:css.getPropertyValue('--muted').trim()||'#64748b',border:css.getPropertyValue('--border').trim()||'#d9e2ef',panel:css.getPropertyValue('--panel-bg').trim()||'#fff',accent:css.getPropertyValue('--accent').trim()||'#2563eb'};
 }
-function drawNormalityHistogram(values,stats){
- const g=normalityCanvasSetup('normalityHistogram'),{ctx:c,w,h,text,muted,border}=g;
+function drawNormalityHistogram(values,stats,canvasId='normalityHistogram',sharedScale=null){
+ const g=normalityCanvasSetup(canvasId),{ctx:c,w,h,text,muted,border}=g;
  c.clearRect(0,0,w,h);const sorted=values.slice().sort((a,b)=>a-b),n=sorted.length,sd=stats.sd,mu=stats.mean;
  const bins=Math.max(6,Math.min(18,Math.ceil(1+Math.log2(n)))),min=Math.min(...values),max=Math.max(...values);
- let xMin=Math.min(min,mu-3.5*sd),xMax=Math.max(max,mu+3.5*sd);
+ let xMin=sharedScale?.xMin??Math.min(min,mu-3.5*sd),xMax=sharedScale?.xMax??Math.max(max,mu+3.5*sd);
  if(!(xMax>xMin)){xMin-=1;xMax+=1}
- const bw=(xMax-xMin)/bins,counts=Array(bins).fill(0);
- values.forEach(v=>{let k=Math.floor((v-xMin)/bw);if(k<0)k=0;if(k>=bins)k=bins-1;counts[k]++});
- const curveMax=n*bw/(sd*Math.sqrt(2*Math.PI)),yMax=Math.max(1,Math.max(...counts),curveMax)*1.16;
+ const binCount=sharedScale?.bins??bins,bw=(xMax-xMin)/binCount,counts=Array(binCount).fill(0);
+ values.forEach(v=>{let k=Math.floor((v-xMin)/bw);if(k<0)k=0;if(k>=binCount)k=binCount-1;counts[k]++});
+ const curveMax=n*bw/(sd*Math.sqrt(2*Math.PI)),yMax=sharedScale?.yMax??Math.max(1,Math.max(...counts),curveMax)*1.16;
  const L=58,R=18,T=18,B=48,pw=w-L-R,ph=h-T-B;
  const X=x=>L+(x-xMin)/(xMax-xMin)*pw,Y=y=>T+ph-y/yMax*ph;
  c.font='11px Arial';c.textAlign='right';c.textBaseline='middle';c.strokeStyle=border;c.fillStyle=muted; c.lineWidth=1;
  for(let k=0;k<=4;k++){const val=yMax*k/4,yy=Y(val);c.beginPath();c.moveTo(L,yy);c.lineTo(w-R,yy);c.stroke();c.fillText(String(Math.round(val)),L-8,yy)}
  c.strokeStyle=text;c.beginPath();c.moveTo(L,T);c.lineTo(L,T+ph);c.lineTo(w-R,T+ph);c.stroke();
- counts.forEach((v,i)=>{const x0=X(xMin+i*bw),x1=X(xMin+(i+1)*bw);c.fillStyle='rgba(79,145,196,.58)';c.strokeStyle='rgba(54,91,125,.85)';c.lineWidth=1;c.fillRect(x0+1,Y(v),Math.max(1,x1-x0-2),T+ph-Y(v));c.strokeRect(x0+1,Y(v),Math.max(1,x1-x0-2),T+ph-Y(v))});
- c.beginPath();c.strokeStyle='#0f9f75';c.lineWidth=2.5;
+ const gsStyle=(canvasId==='summaryHistogram'||(canvasId.startsWith('gsCompareHistogram')||canvasId.startsWith('mgsHistogram')))?graphicalSummaryAppearance():null;counts.forEach((v,i)=>{const x0=X(xMin+i*bw),x1=X(xMin+(i+1)*bw);c.fillStyle=gsStyle?gsStyle.bar+'95':'rgba(79,145,196,.58)';c.strokeStyle=gsStyle?gsStyle.bar:'rgba(54,91,125,.85)';c.lineWidth=1;c.fillRect(x0+1,Y(v),Math.max(1,x1-x0-2),T+ph-Y(v));c.strokeRect(x0+1,Y(v),Math.max(1,x1-x0-2),T+ph-Y(v))});
+ c.beginPath();c.strokeStyle=gsStyle?gsStyle.curve:'#0f9f75';c.lineWidth=2.5;
  for(let i=0;i<=180;i++){const x=xMin+(xMax-xMin)*i/180,z=(x-mu)/sd,y=n*bw/(sd*Math.sqrt(2*Math.PI))*Math.exp(-.5*z*z);if(i===0)c.moveTo(X(x),Y(y));else c.lineTo(X(x),Y(y))}
  c.stroke();
  c.fillStyle=muted;c.textAlign='center';c.textBaseline='top';
  for(let k=0;k<=4;k++){const x=xMin+(xMax-xMin)*k/4;c.fillText(Number(x.toPrecision(4)).toString(),X(x),T+ph+8)}
  c.fillStyle=text;c.font='12px Arial';c.fillText('Measurement',L+pw/2,h-17);
 }
-function drawNormalityQQ(values,stats){
- const g=normalityCanvasSetup('normalityQQ'),{ctx:c,w,h,text,muted,border}=g;
+function drawNormalityQQ(values,stats,canvasId='normalityQQ'){
+ const g=normalityCanvasSetup(canvasId),{ctx:c,w,h,text,muted,border}=g;
  c.clearRect(0,0,w,h);const sorted=values.slice().sort((a,b)=>a-b),n=sorted.length,mu=stats.mean,sd=stats.sd;
  const theoretical=sorted.map((_,i)=>inverseNormalCDF((i+.5)/n));
  const minX=-3.5,maxX=3.5,minY=Math.min(...sorted,mu-3.5*sd),maxY=Math.max(...sorted,mu+3.5*sd);
@@ -354,29 +561,160 @@ function renderNormalityGraphs(values,stats){
  drawNormalityHistogram(values,stats);drawNormalityQQ(values,stats);
 }
 
+function polynomial(coefficients,x){
+ let p=x*coefficients[coefficients.length-1];
+ for(let j=coefficients.length-2;j>0;j--)p=(p+coefficients[j])*x;
+ return coefficients[0]+p;
+}
+// Shapiro-Wilk W and Royston AS R94 approximate p-value (valid for 3 <= N <= 5000).
+function shapiroWilk(values){
+ const x=values.slice().sort((a,b)=>a-b),n=x.length,half=Math.floor(n/2);
+ if(n<3||n>5000)throw new Error('Shapiro-Wilk requires between 3 and 5,000 valid numeric measurements.');
+ const range=x[n-1]-x[0];
+ if(!(range>0))throw new Error('Shapiro-Wilk cannot be performed because all measurements are identical.');
+ const g=[-2.273,.459],c1=[0,.221157,-.147981,-2.07119,4.434685,-2.706056],c2=[0,.042981,-.293762,-1.752461,5.682633,-3.582633],c3=[.544,-.39978,.025054,-.0006714],c4=[1.3822,-.77857,.062767,-.0020322],c5=[-1.5861,-.31082,-.083751,.0038915],c6=[-.4803,-.082676,.0030302];
+ let a=[];
+ if(n===3){a=[Math.SQRT1_2]}
+ else{
+  const m=Array.from({length:half},(_,i)=>inverseNormalCDF((i+1-.375)/(n+.25)));
+  const sum2=2*m.reduce((s,v)=>s+v*v,0),sumRoot=Math.sqrt(sum2),rsn=1/Math.sqrt(n);
+  const a1=polynomial(c1,rsn)-m[0]/sumRoot;
+  let fac,start;
+  a=Array(half).fill(0);a[0]=a1;
+  if(n>5){
+   const a2=-m[1]/sumRoot+polynomial(c2,rsn);
+   fac=Math.sqrt((sum2-2*m[0]*m[0]-2*m[1]*m[1])/(1-2*a1*a1-2*a2*a2));
+   a[1]=a2;start=2;
+  }else{
+   fac=Math.sqrt((sum2-2*m[0]*m[0])/(1-2*a1*a1));start=1;
+  }
+  for(let i=start;i<half;i++)a[i]=m[i]/-fac;
+ }
+ const coeff=Array(n).fill(0);
+ for(let i=0;i<half;i++){coeff[i]=-a[i];coeff[n-1-i]=a[i]}
+ const scaled=x.map(v=>(v-x[0])/range),xbar=scaled.reduce((s,v)=>s+v,0)/n;
+ let ssa=0,ssx=0,sax=0;
+ for(let i=0;i<n;i++){const ac=coeff[i],xc=scaled[i]-xbar;ssa+=ac*ac;ssx+=xc*xc;sax+=ac*xc}
+ const w1=Math.max(1e-300,Math.min(1,((Math.sqrt(ssa*ssx)-sax)*(Math.sqrt(ssa*ssx)+sax))/(ssa*ssx)));
+ const W=Math.max(0,Math.min(1,1-w1));
+ let p;
+ if(n===3){p=Math.max(0,(6/Math.PI)*(Math.asin(Math.sqrt(W))-Math.asin(Math.sqrt(.75))))}
+ else{
+  let y=Math.log(w1),m,s;
+  if(n<=11){
+   const gamma=polynomial(g,n);
+   if(y>=gamma)p=1e-99;
+   else{y=-Math.log(gamma-y);m=polynomial(c3,n);s=Math.exp(polynomial(c4,n));p=1-normalCDF((y-m)/s)}
+  }else{m=polynomial(c5,Math.log(n));s=Math.exp(polynomial(c6,Math.log(n)));p=1-normalCDF((y-m)/s)}
+ }
+ const sampleMean=mean(x),sd=range*Math.sqrt(ssx/(n-1));
+ return {n,mean:sampleMean,sd,W,p:Math.max(0,Math.min(1,p))};
+}
+// Ryan-Joiner normality test: correlation of ordered observations with
+// Blom normal scores. P-value is estimated by linear interpolation between
+// the published alpha-specific critical-value approximations.
+function ryanJoinerCritical(n,alpha){
+ const root=Math.sqrt(n),n2=n*n,n15=n*Math.sqrt(n);
+ if(n>=50){
+  if(alpha===0.10)return 1.0071-0.1371/root-0.3682/n+0.7780/n2;
+  if(alpha===0.05)return 1.0063-0.1288/root-0.6118/n+1.3505/n2;
+  if(alpha===0.01)return 0.9963-0.0211/root-1.4106/n+3.1791/n2;
+ }else{
+  if(alpha===0.10)return 0.999878-0.0009991/root-1.26149/n+2.22173/n15;
+  if(alpha===0.05)return 0.999494+0.01177805/root-1.77265/n+3.55823/n15;
+  if(alpha===0.01)return 0.999040+0.0362180/root-2.52631/n+4.36612/n15;
+ }
+ throw new Error('Ryan-Joiner supports significance levels 0.10, 0.05, and 0.01.');
+}
+function ryanJoiner(values){
+ const x=values.slice().sort((a,b)=>a-b),n=x.length;
+ if(n<4)throw new Error('Ryan-Joiner requires at least 4 valid numeric measurements.');
+ const m=mean(x),ss=x.reduce((a,v)=>a+(v-m)**2,0);
+ if(!(ss>0))throw new Error('Ryan-Joiner cannot be performed because all measurements are identical.');
+ const z=Array(n);let i=0;
+ while(i<n){let j=i+1;while(j<n&&x[j]===x[i])j++;
+  const avgRank=((i+1)+j)/2; // average of 1-based tied ranks
+  const score=inverseNormalCDF((avgRank-0.375)/(n+0.25));
+  for(let k=i;k<j;k++)z[k]=score;
+  i=j;
+ }
+ const zMean=mean(z),zSS=z.reduce((a,v)=>a+(v-zMean)**2,0);
+ const cross=x.reduce((a,v,k)=>a+(v-m)*(z[k]-zMean),0);
+ const R=Math.max(0,Math.min(1,cross/Math.sqrt(ss*zSS)));
+ const c10=ryanJoinerCritical(n,0.10),c05=ryanJoinerCritical(n,0.05),c01=ryanJoinerCritical(n,0.01);
+ let p, pText;
+ if(R>c10){p=0.100001;pText='> 0.100'}
+ else if(R<=c01){p=0.009999;pText='< 0.010'}
+ else if(R>c05){p=0.05+(c10-R)/(c10-c05)*0.05;pText=p.toFixed(4)}
+ else{p=0.01+(c05-R)/(c05-c01)*0.04;pText=p.toFixed(4)}
+ return {n,mean:m,sd:Math.sqrt(ss/(n-1)),Rp:R,p,pText,c10,c05,c01};
+}
+// One-sample Kolmogorov-Smirnov test with Lilliefors correction:
+// parameters are estimated from the sample, so the ordinary KS distribution
+// is not valid. P-value is estimated by interpolation between standard
+// Lilliefors critical-value approximations at alpha = 0.10, 0.05 and 0.01.
+function lillieforsCritical(n,alpha){
+ const k=alpha===0.10?0.768:alpha===0.05?0.805:alpha===0.01?0.886:null;
+ if(k===null)throw new Error('Lilliefors approximation supports α = 0.10, 0.05, and 0.01.');
+ return k/Math.sqrt(n);
+}
+function kolmogorovSmirnovLilliefors(values){
+ const x=values.slice().sort((a,b)=>a-b),n=x.length,m=mean(x);
+ const ss=x.reduce((s,v)=>s+(v-m)*(v-m),0),sd=Math.sqrt(ss/(n-1));
+ if(n<5)throw new Error('Kolmogorov-Smirnov with Lilliefors correction requires at least 5 valid numeric measurements.');
+ if(!(sd>0))throw new Error('Lilliefors test cannot be performed because all measurements are identical.');
+ let dPlus=0,dMinus=0;
+ for(let i=0;i<n;i++){
+  const z=(x[i]-m)/sd,F=normalCDF(z);
+  dPlus=Math.max(dPlus,(i+1)/n-F);
+  dMinus=Math.max(dMinus,F-i/n);
+ }
+ const Dstat=Math.max(dPlus,dMinus);
+ const c10=lillieforsCritical(n,0.10),c05=lillieforsCritical(n,0.05),c01=lillieforsCritical(n,0.01);
+ let p,pText;
+ if(Dstat<=c10){p=0.100001;pText='> 0.100'}
+ else if(Dstat>=c01){p=0.009999;pText='< 0.010'}
+ else if(Dstat>c05){p=0.05+(c10-Dstat)/(c10-c05)*0.05;pText=p.toFixed(4)}
+ else{p=0.01+(c05-Dstat)/(c05-c01)*0.04;pText=p.toFixed(4)}
+ return {n,mean:m,sd,D:Dstat,Dplus:dPlus,Dminus:dMinus,p,pText,c10,c05,c01};
+}
+function normalityMethodName(method){
+ return method==='sw'?'Shapiro-Wilk':method==='rj'?'Ryan-Joiner':method==='ks'?'Kolmogorov-Smirnov (Lilliefors)':'Anderson-Darling (Normal)';
+}
 function runNormalityTest(){
  sync();
- const col=+$('normalityMeasureCol').value,alpha=Number($('normalityAlpha').value);
+ const col=+$('normalityMeasureCol').value,alpha=Number($('normalityAlpha').value),method=$('normalityMethod').value;
  const data=D.map(r=>String(r[col]??'').trim()).filter(v=>v!==''&&Number.isFinite(Number(v))).map(Number);
- if(data.length<8){alert('Normality Test requires at least 8 valid numeric measurements.');return}
- const r=andersonDarlingNormal(data);
- if(!Number.isFinite(r.A2)){alert('Normality Test cannot be performed because all measurements are identical.');return}
- const reject=r.p<alpha;
+ if(method==='ad'&&data.length<8){alert('Anderson-Darling Normality Test requires at least 8 valid numeric measurements.');return}
+ if(method==='sw'&&(data.length<3||data.length>5000)){alert('Shapiro-Wilk requires between 3 and 5,000 valid numeric measurements.');return}
+ if(method==='rj'&&data.length<4){alert('Ryan-Joiner requires at least 4 valid numeric measurements.');return}
+ if(method==='ks'&&data.length<5){alert('Kolmogorov-Smirnov with Lilliefors correction requires at least 5 valid numeric measurements.');return}
+ let r;
+ try{r=method==='sw'?shapiroWilk(data):method==='rj'?ryanJoiner(data):method==='ks'?kolmogorovSmirnovLilliefors(data):andersonDarlingNormal(data)}catch(e){alert(e.message);return}
+ if(!(r.sd>0)||!Number.isFinite(r.p)){alert('Normality Test cannot be performed because the measurements do not have sufficient variation.');return}
+ const reject=(method==='rj'||method==='ks')?r.p<=alpha:r.p<alpha,methodName=normalityMethodName(method),statLabel=method==='sw'?'W Statistic':method==='rj'?'Ryan-Joiner Correlation (Rp)':method==='ks'?'KS Statistic (D)':'AD Statistic',statValue=method==='sw'?r.W:method==='rj'?r.Rp:method==='ks'?r.D:r.A2,pDisplay=(method==='rj'||method==='ks')?r.pText:(r.p<0.0001?'< 0.0001':r.p.toFixed(4));
+ $('normalityMethodSubtitle').textContent=methodName+' normality test';
+ $('normStatisticLabel').textContent=statLabel;
  $('normN').textContent=r.n;
- $('normAD').textContent=r.A2.toFixed(4);
- $('normP').textContent=r.p<0.0001?'< 0.0001':r.p.toFixed(4);
+ $('normAD').textContent=statValue.toFixed(4);
+ $('normP').textContent=(method==='rj'||method==='ks')?r.pText:(r.p<0.0001?'< 0.0001':r.p.toFixed(4));
  $('normConclusion').textContent=reject?'Reject H₀':'Fail to Reject H₀';
  $('normConclusion').style.fontSize='17px';
  $('normalityInterpretation').className='notice';
  $('normalityInterpretation').style.borderLeftColor=reject?'#dc3545':'#16a34a';
  $('normalityInterpretation').textContent=reject
-  ?`P-Value (${r.p<0.0001?'< 0.0001':r.p.toFixed(4)}) is below α = ${alpha.toFixed(2)}. Reject H₀. The sample provides evidence that the data do not follow a normal distribution.`
-  :`P-Value (${r.p.toFixed(4)}) is greater than or equal to α = ${alpha.toFixed(2)}. Fail to Reject H₀. There is insufficient evidence to conclude that the data are non-normal. This does not prove that the data are normally distributed.`;
- $('normalityDetails').textContent=`Anderson-Darling normality test for worksheet column "${H[col]||colName(col)}". N = ${r.n}; Mean = ${r.mean.toFixed(6)}; Sample StDev = ${r.sd.toFixed(6)}; AD = ${r.A2.toFixed(6)}; adjusted AD* = ${r.A2star.toFixed(6)}; α = ${alpha.toFixed(2)}.`;
- lastNormality={col,values:data.slice(),p:r.p,alpha,reject,mean:r.mean,sd:r.sd};
+  ?`P-Value (${pDisplay}) is below α = ${alpha.toFixed(2)}. Reject H₀. The sample provides evidence that the data do not follow a normal distribution.`
+  :`P-Value (${pDisplay}) is greater than or equal to α = ${alpha.toFixed(2)}. Fail to Reject H₀. There is insufficient evidence to conclude that the data are non-normal. This does not prove that the data are normally distributed.`;
+ $('normalityDetails').textContent=method==='sw'
+  ?`Shapiro-Wilk normality test for worksheet column "${H[col]||colName(col)}". N = ${r.n}; Mean = ${r.mean.toFixed(6)}; Sample StDev = ${r.sd.toFixed(6)}; W = ${r.W.toFixed(6)}; P-Value is approximate using Royston AS R94; α = ${alpha.toFixed(2)}.`
+  :method==='rj'
+  ?`Ryan-Joiner normality test for worksheet column "${H[col]||colName(col)}". N = ${r.n}; Mean = ${r.mean.toFixed(6)}; Sample StDev = ${r.sd.toFixed(6)}; Rp = ${r.Rp.toFixed(6)}; P-Value is estimated by linear interpolation between published α-specific critical-value approximations (α = 0.10, 0.05, 0.01); selected α = ${alpha.toFixed(2)}.`
+  :method==='ks'
+  ?`Kolmogorov-Smirnov normality test with Lilliefors correction for worksheet column "${H[col]||colName(col)}". N = ${r.n}; Mean = ${r.mean.toFixed(6)}; Sample StDev = ${r.sd.toFixed(6)}; D = ${r.D.toFixed(6)} (D+ = ${r.Dplus.toFixed(6)}, D- = ${r.Dminus.toFixed(6)}); P-Value is estimated by linear interpolation between Lilliefors critical-value approximations at α = 0.10, 0.05, and 0.01; selected α = ${alpha.toFixed(2)}.`
+  :`Anderson-Darling normality test for worksheet column "${H[col]||colName(col)}". N = ${r.n}; Mean = ${r.mean.toFixed(6)}; Sample StDev = ${r.sd.toFixed(6)}; AD = ${r.A2.toFixed(6)}; adjusted AD* = ${r.A2star.toFixed(6)}; α = ${alpha.toFixed(2)}.`;
+ lastNormality={col,values:data.slice(),p:r.p,pText:(method==='rj'||method==='ks')?r.pText:null,alpha,reject,mean:r.mean,sd:r.sd,method,statLabel,statValue};
  $('normalityDetails').textContent += ` Significance level α is the Type I Error risk controlled by the test procedure.`;
  renderNormalityGraphs(data,r);
-
 }
 
 
@@ -385,10 +723,10 @@ function normalityReportText(){
  if(!lastNormality||$('normN').textContent==='—')return 'No Normality Test result is available. Run Normality Test first.';
  const col=lastNormality.col,alpha=lastNormality.alpha,p=lastNormality.p;
  return [
-  'Normality Test — Anderson-Darling (Normal)',
+  `Normality Test — ${normalityMethodName(lastNormality.method)}`,
   `Measurement Column: ${H[col]||colName(col)}`,
   `Sample Size (N): ${$('normN').textContent}`,
-  `AD Statistic: ${$('normAD').textContent}`,
+  `${lastNormality.statLabel}: ${$('normAD').textContent}`,
   `P-Value: ${$('normP').textContent}`,
   `Significance Level (α): ${alpha.toFixed(2)}`,
   `Conclusion: ${$('normConclusion').textContent}`,
@@ -430,6 +768,341 @@ function printNormalityResult(){
  setTimeout(cleanup,1500);
 }
 
+
+// Graphical Summary V1.24 — uses the shared worksheet and selected measurement column.
+let lastGraphicalSummary=null,lastGraphicalComparison=[];
+function summaryQuantile(sorted,p){
+ const n=sorted.length;if(!n)return NaN;
+ const h=(n-1)*p,lo=Math.floor(h),hi=Math.ceil(h),f=h-lo;
+ return sorted[lo]*(1-f)+sorted[hi]*f;
+}
+function tCriticalApprox(df,confidence){
+ const z=inverseNormalCDF(1-(1-confidence)/2),v=df;
+ return z+(z*z*z+z)/(4*v)+(5*z**5+16*z**3+3*z)/(96*v*v)+(3*z**7+19*z**5+17*z**3-15*z)/(384*v*v*v);
+}
+function chiSquareQuantileApprox(p,df){
+ const z=inverseNormalCDF(p),a=2/(9*df);
+ return df*Math.pow(Math.max(1e-9,1-a+z*Math.sqrt(a)),3);
+}
+function binomialCdfHalf(k,n){
+ if(k<0)return 0;if(k>=n)return 1;
+ let term=Math.pow(.5,n),sum=term;
+ for(let i=0;i<k;i++){term*=((n-i)/(i+1));sum+=term}
+ return sum;
+}
+function medianConfidenceInterval(sorted,confidence){
+ const n=sorted.length,tail=(1-confidence)/2;
+ let k=1;
+ while(k<=Math.floor((n+1)/2)&&1-2*binomialCdfHalf(k-1,n)<confidence)k++;
+ k=Math.min(Math.max(1,k),Math.floor((n+1)/2));
+ return {lower:sorted[k-1],upper:sorted[n-k]};
+}
+function summarizeMeasurements(records,confidence){
+ const values=records.map(o=>o.v),sorted=values.slice().sort((a,b)=>a-b),n=values.length,m=mean(values);
+ if(n<2)throw new Error('Graphical Summary requires at least 2 valid numeric measurements.');
+ const ss=values.reduce((s,v)=>s+(v-m)**2,0),variance=ss/(n-1),sd=Math.sqrt(variance);
+ if(!(sd>0))throw new Error('Graphical Summary cannot be generated because all measurements are identical.');
+ const q1=summaryQuantile(sorted,.25),median=summaryQuantile(sorted,.5),q3=summaryQuantile(sorted,.75),iqr=q3-q1;
+ const lowerFence=q1-1.5*iqr,upperFence=q3+1.5*iqr;
+ const outliers=records.filter(o=>o.v<lowerFence||o.v>upperFence).map(o=>({...o,flag:o.v<lowerFence?'Below lower fence':'Above upper fence'}));
+ const m2=values.reduce((s,v)=>s+(v-m)**2,0)/n,m3=values.reduce((s,v)=>s+(v-m)**3,0)/n,m4=values.reduce((s,v)=>s+(v-m)**4,0)/n;
+ const g1=m3/Math.pow(m2,1.5),skew=n>2?Math.sqrt(n*(n-1))/(n-2)*g1:NaN;
+ const g2=m4/(m2*m2)-3,kurt=n>3?((n-1)/((n-2)*(n-3)))*((n+1)*g2+6):NaN;
+ const alpha=1-confidence,t=tCriticalApprox(n-1,confidence),meanCI={lower:m-t*sd/Math.sqrt(n),upper:m+t*sd/Math.sqrt(n)};
+ const medCI=medianConfidenceInterval(sorted,confidence);
+ const chiLo=chiSquareQuantileApprox(alpha/2,n-1),chiHi=chiSquareQuantileApprox(1-alpha/2,n-1);
+ const sdCI={lower:Math.sqrt((n-1)*variance/chiHi),upper:Math.sqrt((n-1)*variance/chiLo)};
+ let whiskerLow=sorted.find(v=>v>=lowerFence),whiskerHigh=sorted.slice().reverse().find(v=>v<=upperFence);
+ return {records,values,sorted,n,mean:m,variance,sd,min:sorted[0],max:sorted[n-1],q1,median,q3,iqr,skewness:skew,kurtosis:kurt,lowerFence,upperFence,outliers,whiskerLow,whiskerHigh,confidence,meanCI,medianCI:medCI,sdCI};
+}
+function toggleGraphicalSummarySection(input){
+ const name=input?.dataset?.gsSection;
+ if(!name)return;
+ const card=$('gsSection'+name);
+ if(card)card.hidden=!input.checked;
+}
+function setGraphicalSummarySections(show){
+ document.querySelectorAll('[data-gs-section]').forEach(input=>{
+  input.checked=!!show;
+  toggleGraphicalSummarySection(input);
+ });
+}
+function graphicalSummaryAppearance(){
+ const color=id=>$(id)?.value||'#2563eb';
+ const size=Number($('gsFontSize')?.value||14);
+ return {fontSize:size,bar:color('gsBarColor'),curve:color('gsCurveColor'),box:color('gsBoxColor'),ci:color('gsCIColor')};
+}
+function updateGraphicalSummaryAppearance(){
+ const a=graphicalSummaryAppearance(),root=$('summaryExportArea');
+ if(root)root.style.setProperty('--gs-font-size',a.fontSize+'px');
+ if(lastGraphicalSummary)drawGraphicalSummaryCharts(lastGraphicalSummary);
+ if(lastGraphicalComparison.length)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid');
+}
+function drawSummaryBoxplot(s){
+ const g=normalityCanvasSetup('summaryBoxplot'),{ctx:c,w,h,text,muted,border,accent}=g,gs=graphicalSummaryAppearance();
+ c.clearRect(0,0,w,h);const L=52,R=22,T=38,B=48,ph=h-T-B,pw=w-L-R;
+ let lo=Math.min(s.min,s.lowerFence),hi=Math.max(s.max,s.upperFence);if(!(hi>lo)){lo-=1;hi+=1}
+ const X=v=>L+(v-lo)/(hi-lo)*pw,y=T+ph/2;
+ c.strokeStyle=border;c.lineWidth=1;c.beginPath();c.moveTo(L,y);c.lineTo(w-R,y);c.stroke();
+ c.font=`${gs.fontSize}px Arial`;c.fillStyle=muted;c.textAlign='center';c.textBaseline='top';
+ for(let i=0;i<=4;i++){let v=lo+(hi-lo)*i/4;c.fillText(Number(v.toPrecision(5)).toString(),X(v),y+48);c.strokeStyle=border;c.beginPath();c.moveTo(X(v),T+10);c.lineTo(X(v),T+ph-10);c.stroke()}
+ c.strokeStyle=gs.box;c.fillStyle=gs.box+'35';c.lineWidth=2;
+ c.beginPath();c.moveTo(X(s.whiskerLow),y);c.lineTo(X(s.whiskerHigh),y);c.stroke();
+ [s.whiskerLow,s.whiskerHigh].forEach(v=>{c.beginPath();c.moveTo(X(v),y-22);c.lineTo(X(v),y+22);c.stroke()});
+ c.fillRect(X(s.q1),y-30,X(s.q3)-X(s.q1),60);c.strokeRect(X(s.q1),y-30,X(s.q3)-X(s.q1),60);
+ c.strokeStyle=gs.box;c.lineWidth=3;c.beginPath();c.moveTo(X(s.median),y-30);c.lineTo(X(s.median),y+30);c.stroke();
+ c.fillStyle=gs.box;s.outliers.forEach(o=>{c.beginPath();c.arc(X(o.v),y,4,0,Math.PI*2);c.fill()});
+ c.fillStyle=text;c.font=`${gs.fontSize}px Arial`;c.textAlign='center';c.textBaseline='alphabetic';c.fillText('Measurement',L+pw/2,h-8);
+}
+function drawSummaryConfidencePlot(s){
+ const g=normalityCanvasSetup('summaryCIPlot'),{ctx:c,w,h,text,muted,border,accent}=g,gs=graphicalSummaryAppearance();
+ c.clearRect(0,0,w,h);
+ const rows=[{name:'Mean',lo:s.meanCI.lower,hi:s.meanCI.upper,mid:s.mean},{name:'Median',lo:s.medianCI.lower,hi:s.medianCI.upper,mid:s.median}];
+ const all=rows.flatMap(r=>[r.lo,r.hi,r.mid]),mn=Math.min(...all),mx=Math.max(...all),pad=(mx-mn)*.12||1;
+ const lo=mn-pad,hi=mx+pad,L=66,R=18,T=12,B=28,pw=w-L-R;
+ const X=v=>L+(v-lo)/(hi-lo)*pw;
+ c.font=`${gs.fontSize}px Arial`;c.textBaseline='middle';c.textAlign='right';
+ rows.forEach((r,i)=>{
+  const y=T+20+i*34;
+  c.fillStyle=text;c.fillText(r.name,L-9,y);
+  c.strokeStyle=border;c.lineWidth=1;c.beginPath();c.moveTo(L,y);c.lineTo(w-R,y);c.stroke();
+  c.strokeStyle=gs.ci;c.lineWidth=3;c.beginPath();c.moveTo(X(r.lo),y);c.lineTo(X(r.hi),y);c.stroke();
+  c.fillStyle=gs.ci;c.beginPath();c.arc(X(r.mid),y,4,0,Math.PI*2);c.fill();
+  c.strokeStyle=gs.ci;c.lineWidth=1.5;c.beginPath();c.moveTo(X(r.lo),y-5);c.lineTo(X(r.lo),y+5);c.moveTo(X(r.hi),y-5);c.lineTo(X(r.hi),y+5);c.stroke();
+ });
+ c.fillStyle=muted;c.font=`${Math.max(10,gs.fontSize-2)}px Arial`;c.textAlign='center';c.textBaseline='top';
+ for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4;c.fillText(Number(v.toPrecision(5)).toString(),X(v),h-B+4)}
+}
+function updateSummaryNormality(s){
+ const col=+$('summaryMeasureCol').value,values=s.values;
+ const nr=lastNormality&&lastNormality.col===col&&lastNormality.values.length===values.length&&lastNormality.values.every((v,i)=>v===values[i]);
+ if(!nr){$('summaryNormality').innerHTML='<div class="gs-normality-status">Not run for this data</div><div class="gs-normality-detail">Run Normality Test using the same Measurement Column to include its statistic, P-Value and conclusion here.</div>';return}
+ const p=lastNormality.pText||(lastNormality.p<0.0001?'< 0.0001':lastNormality.p.toFixed(4));
+ const method=normalityMethodName(lastNormality.method),statLabel=lastNormality.statLabel||'Test Statistic',conclusion=lastNormality.reject?'Reject H₀':'Fail to Reject H₀',color=lastNormality.reject?'#dc3545':'#16a34a';
+ $('summaryNormality').innerHTML=`<div class="gs-normality-status" style="color:${color}">${esc(conclusion)}</div><div>${esc(statLabel)}: <strong>${lastNormality.statValue.toFixed(4)}</strong></div><div>P-Value: <strong>${esc(p)}</strong></div><div>α: ${lastNormality.alpha.toFixed(2)}</div><div>${esc(method)}</div><div class="gs-normality-detail">${lastNormality.reject?'Evidence indicates the data do not follow a normal distribution.':'Insufficient evidence to conclude that the data are non-normal. This does not prove normality.'}</div>`;
+}
+function drawGraphicalSummaryCharts(s){
+ const stats={mean:s.mean,sd:s.sd};
+ drawNormalityHistogram(s.values,stats,'summaryHistogram');
+ drawSummaryBoxplot(s);
+ drawSummaryConfidencePlot(s);
+}
+function renderGraphicalSummary(s){
+ updateGraphicalSummaryAppearance();
+ const f=v=>Number.isFinite(v)?v.toFixed(4):'N/A',pct=(s.confidence*100).toFixed(0)+'%',col=+$('summaryMeasureCol').value,name=H[col]||colName(col);
+ $('summaryReportTitle').textContent=`Summary Report for ${name}`;
+ $('summaryReportMeta').textContent=`Measurement Column: ${name}  |  Sample Size (N): ${s.n}  |  Confidence Level: ${pct}`;
+ $('summaryConfidenceBadge').textContent=`${pct} Confidence`;
+ $('summaryCILevel').textContent=pct;
+ $('summaryDescriptive').innerHTML=[
+  ['Mean',f(s.mean)],['StDev',f(s.sd)],['Variance',f(s.variance)],['Skewness',f(s.skewness)],['Kurtosis',f(s.kurtosis)],['N',s.n],['Minimum',f(s.min)],['1st Quartile',f(s.q1)],['Median',f(s.median)],['3rd Quartile',f(s.q3)],['Maximum',f(s.max)],['IQR',f(s.iqr)]
+ ].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+ $('summaryIntervals').innerHTML=[
+  ['Mean',f(s.meanCI.lower),f(s.meanCI.upper)],
+  ['Median',f(s.medianCI.lower),f(s.medianCI.upper)],
+  ['StDev',f(s.sdCI.lower),f(s.sdCI.upper)]
+ ].map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');
+ $('summaryOutliers').innerHTML=s.outliers.length?s.outliers.slice(0,5).map(o=>`<tr><td>${o.row}</td><td>${f(o.v)}</td><td>${o.flag.includes('Below')?'Low':'High'}</td></tr>`).join(''):'<tr><td colspan="3">None detected</td></tr>';
+ if(s.outliers.length>5)$('summaryOutliers').innerHTML+=`<tr><td colspan="3">+ ${s.outliers.length-5} more potential outlier(s)</td></tr>`;
+ $('summaryOverview').innerHTML=`<div><strong>Mean:</strong> ${f(s.mean)}<br><strong>Median:</strong> ${f(s.median)}<br><strong>StDev:</strong> ${f(s.sd)}<br><strong>Potential Outliers:</strong> ${s.outliers.length}</div>`;
+ updateSummaryNormality(s);
+ drawGraphicalSummaryCharts(s);
+}
+
+
+const multipleGraphColorSettings={series:{},overlap:'#8b5cf6'};
+const multipleDefaultColors=['#2878d0','#e07a24','#16a078','#9b59b6','#d94f70','#7c8b35','#08a6b5','#8b6542'];
+function multipleSeriesColor(col,index){return multipleGraphColorSettings.series[col]||multipleDefaultColors[index%multipleDefaultColors.length]}
+function renderMultipleGraphColorControls(){
+ const host=$('multipleGraphColorControls');if(!host)return;
+ const selected=Array.from(document.querySelectorAll('#multipleCompareColumns input:checked'));
+ if(!selected.length){host.innerHTML='<span class="gs-compare-empty">Select measurement columns to configure graph colors.</span>';return}
+ const mode=multipleGraphColorSettings.overlapMode||'auto';
+ host.innerHTML=selected.map((el,i)=>{
+  const col=+el.value,name=H[col]||colName(col),color=multipleSeriesColor(col,i);
+  return `<label class="gs-color-control"><input type="color" value="${color}" aria-label="${esc(name)} graph color" onchange="setMultipleGraphColor(${col},this.value)"><span>${esc(name)}</span></label>`;
+ }).join('')+
+ `<label class="gs-color-control overlap"><span>Overlap color mode</span><select aria-label="Overlap color mode" onchange="setMultipleOverlapMode(this.value)"><option value="auto" ${mode==='auto'?'selected':''}>Automatic color blend</option><option value="manual" ${mode==='manual'?'selected':''}>Manual color</option></select></label>`+
+ (mode==='manual'?`<label class="gs-color-control overlap"><input type="color" value="${multipleGraphColorSettings.overlap}" aria-label="Manual overlap color" onchange="setMultipleOverlapColor(this.value)"><span>Manual overlap color</span></label>`:'');
+}
+function setMultipleGraphColor(col,color){multipleGraphColorSettings.series[col]=color;if(lastGraphicalComparison.length)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid')}
+function setMultipleOverlapColor(color){multipleGraphColorSettings.overlap=color;if(lastGraphicalComparison.length)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid')}
+function setMultipleOverlapMode(mode){multipleGraphColorSettings.overlapMode=mode;renderMultipleGraphColorControls();if(lastGraphicalComparison.length)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid')}
+function setMultipleYAxisMode(mode){multipleGraphColorSettings.yAxisMode=mode;if(lastGraphicalComparison.length)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid')}
+function setMultipleBinCount(value){
+ const input=$('multipleBinCount');
+ let bins=Math.round(Number(value));
+ if(!Number.isFinite(bins))bins=12;
+ bins=Math.max(5,Math.min(50,bins));
+ multipleGraphColorSettings.binCount=bins;
+ if(input)input.value=String(bins);
+ if(lastGraphicalComparison.length)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid');
+}
+function blendProcessColors(colors){
+ const rgb=colors.map(hex=>{const h=hex.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]});
+ if(!rgb.length)return '#8b5cf6';
+ const mixed=[0,1,2].map(i=>Math.round(rgb.reduce((sum,c)=>sum+c[i],0)/rgb.length));
+ return '#'+mixed.map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+function overlapFillColor(activeSeries){
+ if((multipleGraphColorSettings.overlapMode||'auto')==='manual')return multipleGraphColorSettings.overlap;
+ return blendProcessColors(activeSeries.map(x=>x.color));
+}
+
+
+
+function drawGraphicalComparison(items,gridId='multipleComparisonGrid'){
+ const grid=$(gridId);if(!grid)return;
+ const series=items.map((item,i)=>({name:item.name,col:item.col,summary:item.summary,color:multipleSeriesColor(item.col,i)}));
+ const all=series.flatMap(x=>x.summary.values);
+ let xMin=Math.min(...all),xMax=Math.max(...all),span=xMax-xMin||1;
+ xMin-=span*.06;xMax+=span*.06;
+ const requestedBins=Number(multipleGraphColorSettings.binCount||$('multipleBinCount')?.value||12);
+ const bins=Math.max(5,Math.min(50,Math.round(Number.isFinite(requestedBins)?requestedBins:12)));
+ const bw=(xMax-xMin)/bins;
+ const mode=multipleGraphColorSettings.yAxisMode||$('multipleYAxisMode')?.value||'count';
+ const isCount=mode==='count';
+ const counts=series.map(({summary:s})=>{
+  const a=Array(bins).fill(0);
+  s.values.forEach(v=>{let k=Math.floor((v-xMin)/bw);k=Math.max(0,Math.min(bins-1,k));a[k]++});
+  return a.map(v=>isCount?v:v/s.n*100);
+ });
+ const curves=series.map(({summary:s})=>Array.from({length:181},(_,i)=>{
+  const x=xMin+(xMax-xMin)*i/180,z=(x-s.mean)/s.sd;
+  return (isCount?s.n:100)*bw/(s.sd*Math.sqrt(2*Math.PI))*Math.exp(-.5*z*z);
+ }));
+ const rawYMax=Math.max(1,...counts.flat(),...curves.flat())*1.18;
+ const yTickStep=isCount?Math.max(1,Math.ceil(rawYMax/4)):null;
+ const yAxisMax=isCount?yTickStep*4:rawYMax;
+ const yMax=yAxisMax;
+ const yLabel=isCount?'Count (N)':'Relative frequency (%)';
+ const overlapMode=multipleGraphColorSettings.overlapMode||'auto';
+ grid.innerHTML=`<section class="gs-comparison-card">
+  <div class="gs-comparison-card-head"><strong>Overlay Histogram + Normal Curves</strong><span>${series.length} processes · Common measurement axis · ${isCount?'Count':'Relative frequency'}</span></div>
+  <div class="normality-graph-subtitle">All processes use identical bin boundaries and are drawn transparently in the same positions. Overlapping colors blend naturally, creating a shaded appearance where distributions intersect.</div>
+  <canvas id="mgsOverlayHistogram" role="img" aria-label="Transparently overlaid histogram with ${yLabel} and fitted normal curves comparing ${series.map(x=>esc(x.name)).join(', ')}"></canvas>
+  <div class="gs-overlay-legend">${series.map(x=>`<span class="gs-overlay-legend-item"><i class="gs-overlay-swatch" style="background:${x.color};opacity:.7"></i>${esc(x.name)}</span>`).join('')}<span class="gs-overlay-legend-item"><i class="gs-overlay-swatch" style="background:${overlapMode==='manual'?multipleGraphColorSettings.overlap:'linear-gradient(90deg,'+series.map(x=>x.color).join(',')+')'}"></i>${overlapMode==='manual'?'Overlap (manual tint)':'Overlap (translucent blend)'}</span></div>
+  <div class="gs-overlay-note">Y-axis: ${yLabel} · Histogram bars are semi-transparent and overlaid in the same bin positions. Normal curves are scaled to match the selected histogram unit.</div>
+ </section>`;
+ const g=normalityCanvasSetup('mgsOverlayHistogram'),{ctx:c,w,h,text,muted,border}=g;c.clearRect(0,0,w,h);
+ const L=66,R=22,T=24,B=58,pw=w-L-R,ph=h-T-B,X=x=>L+(x-xMin)/(xMax-xMin)*pw,Y=y=>T+ph-y/yMax*ph;
+ c.font='11px Arial';c.textAlign='right';c.textBaseline='middle';c.fillStyle=muted;c.strokeStyle=border;c.lineWidth=1;
+ for(let k=0;k<=4;k++){const val=isCount?yTickStep*k:yMax*k/4,yy=Y(val);c.beginPath();c.moveTo(L,yy);c.lineTo(w-R,yy);c.stroke();c.fillText(isCount?String(Math.round(val)):val.toFixed(1)+'%',L-8,yy)}
+ c.strokeStyle=text;c.beginPath();c.moveTo(L,T);c.lineTo(L,T+ph);c.lineTo(w-R,T+ph);c.stroke();
+ // Draw each process bar at the exact same bin position with transparency.
+ // Browser canvas compositing naturally blends two-way and three-way intersections.
+ const barAlpha=overlapMode==='manual'?.48:.46;
+ series.forEach((item,j)=>{
+  for(let k=0;k<bins;k++){
+   const v=counts[j][k];if(v<=0)continue;
+   const x0=L+k*pw/bins+1,barW=pw/bins-2,top=Y(v),base=T+ph;
+   c.fillStyle=item.color;c.globalAlpha=barAlpha;c.fillRect(x0,top,barW,base-top);
+   c.globalAlpha=.9;c.strokeStyle=item.color;c.lineWidth=1;c.strokeRect(x0,top,barW,base-top);
+   c.globalAlpha=1;
+  }
+ });
+ // Optional manual tint is a subtle translucent wash, not a replacement for the blended process colors.
+ if(overlapMode==='manual'){
+  for(let k=0;k<bins;k++){
+   const active=counts.map(a=>a[k]).filter(v=>v>0);
+   if(active.length<2)continue;
+   const common=Math.min(...active),x0=L+k*pw/bins+1,barW=pw/bins-2;
+   c.fillStyle=multipleGraphColorSettings.overlap;c.globalAlpha=.20;
+   c.fillRect(x0,Y(common),barW,T+ph-Y(common));c.globalAlpha=1;
+  }
+ }
+ series.forEach((item,j)=>{c.beginPath();c.strokeStyle=item.color;c.lineWidth=2.8;curves[j].forEach((val,i)=>{const x=xMin+(xMax-xMin)*i/180,y=Y(val);if(i===0)c.moveTo(X(x),y);else c.lineTo(X(x),y)});c.stroke()});
+ c.fillStyle=muted;c.textAlign='center';c.textBaseline='top';c.font='11px Arial';for(let k=0;k<=5;k++){const x=xMin+(xMax-xMin)*k/5;c.fillText(Number(x.toPrecision(5)).toString(),X(x),T+ph+9)}
+ c.fillStyle=text;c.font='12px Arial';c.fillText('Measurement',L+pw/2,h-18);
+}
+
+function renderGraphicalComparison(items,confidence){
+ lastGraphicalComparison=items;
+ const pct=(confidence*100).toFixed(0)+'%';
+ $('mgsReportTitle').textContent='Multiple Process Comparison';
+ $('mgsReportMeta').textContent=`Measurement Columns: ${items.map(x=>x.name).join(', ')}  |  Confidence Level: ${pct}  |  ${items.length} processes`;
+ $('mgsConfidenceBadge').textContent=`${pct} Confidence`;
+ $('multipleComparisonStats').innerHTML=items.map(x=>{
+  const s=x.summary,f=v=>Number.isFinite(v)?v.toFixed(4):'N/A';
+  return `<tr><td>${esc(x.name)}</td><td>${s.n}</td><td>${f(s.mean)}</td><td>${f(s.sd)}</td><td>${f(s.min)}</td><td>${f(s.max)}</td></tr>`;
+ }).join('');
+ drawGraphicalComparison(items,'multipleComparisonGrid');
+}
+function runGraphicalSummary(){
+ sync();
+ const confidence=Number($('summaryConfidence').value),col=+$('summaryMeasureCol').value;
+ try{
+  const records=D.map((row,i)=>({v:String(row[col]??'').trim(),row:i+1})).filter(o=>o.v!==''&&Number.isFinite(Number(o.v))).map(o=>({...o,v:Number(o.v)}));
+  if(records.length<2)throw new Error('Graphical Summary requires at least 2 valid numeric measurements.');
+  lastGraphicalSummary=summarizeMeasurements(records,confidence);
+  renderGraphicalSummary(lastGraphicalSummary);
+ }catch(e){alert(e.message)}
+}
+function runMultipleGraphicalSummary(){
+ sync();
+ const selected=Array.from(document.querySelectorAll('#multipleCompareColumns input:checked')).map(x=>+x.value);
+ const confidence=Number($('multipleConfidence').value);
+ try{
+  if(selected.length<2)throw new Error('Please select at least two Measurement Columns for comparison.');
+  const items=selected.map(col=>{
+   const records=D.map((row,i)=>({v:String(row[col]??'').trim(),row:i+1})).filter(o=>o.v!==''&&Number.isFinite(Number(o.v))).map(o=>({...o,v:Number(o.v)}));
+   if(records.length<2)throw new Error(`${H[col]||colName(col)} requires at least 2 valid numeric measurements.`);
+   return {col,name:H[col]||colName(col),summary:summarizeMeasurements(records,confidence)};
+  });
+  renderGraphicalComparison(items,confidence);
+ }catch(e){alert(e.message)}
+}
+
+function graphicalSummaryText(){
+ if(!lastGraphicalSummary)return 'No Graphical Summary is available. Generate the summary first.';
+ const s=lastGraphicalSummary,f=v=>Number.isFinite(v)?v.toFixed(4):'N/A',pct=(s.confidence*100).toFixed(0)+'%';
+ const col=+$('summaryMeasureCol').value,hasNorm=lastNormality&&lastNormality.col===col&&lastNormality.values.length===s.values.length&&lastNormality.values.every((v,i)=>v===s.values[i]);
+ const normLine=hasNorm?`Normality Test: ${normalityMethodName(lastNormality.method)}; ${lastNormality.statLabel} = ${lastNormality.statValue.toFixed(4)}; P-Value = ${lastNormality.pText||lastNormality.p.toFixed(4)}; α = ${lastNormality.alpha.toFixed(2)}; ${lastNormality.reject?'Reject H0':'Fail to Reject H0'}`:'Normality Test: Not run for this exact column/data.';
+ return [`GRAPHICAL SUMMARY — ${H[col]||colName(col)}`,`N = ${s.n}`,`Mean = ${f(s.mean)}; ${pct} CI = ${f(s.meanCI.lower)} to ${f(s.meanCI.upper)}`,`Median = ${f(s.median)}; ${pct} CI = ${f(s.medianCI.lower)} to ${f(s.medianCI.upper)}`,`Sample StDev = ${f(s.sd)}; ${pct} CI = ${f(s.sdCI.lower)} to ${f(s.sdCI.upper)}`,`Variance = ${f(s.variance)}`,`Skewness = ${f(s.skewness)}`,`Kurtosis (Excess) = ${f(s.kurtosis)}`,`Min = ${f(s.min)}; Q1 = ${f(s.q1)}; Median = ${f(s.median)}; Q3 = ${f(s.q3)}; Max = ${f(s.max)}`,`Potential outliers (Tukey 1.5 × IQR): ${s.outliers.length}`,normLine,`CI method: Mean uses t critical approximation; StDev uses Wilson-Hilferty chi-square approximation; Median uses nonparametric order statistics.`,...s.outliers.map(o=>`Worksheet row ${o.row}: ${f(o.v)} (${o.flag})`)].join('\n');
+}
+function copyGraphicalSummary(){copyText(graphicalSummaryText(),'Graphical Summary copied as text.')}
+async function makeGraphicalSummaryCanvas(){
+ if(!window.html2canvas)throw Error('html2canvas is not available. Connect to the internet and try again.');
+ return await html2canvas($('summaryExportArea'),{backgroundColor:getComputedStyle(document.body).getPropertyValue('--panel-bg').trim()||'#fff',scale:2,useCORS:true});
+}
+async function copyGraphicalSummaryImage(){
+ try{const c=await makeGraphicalSummaryCanvas(),b=await new Promise((res,rej)=>c.toBlob(x=>x?res(x):rej(Error('PNG failed')),'image/png'));if(!navigator.clipboard||!window.ClipboardItem)throw Error('Image clipboard unsupported');await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);alert('Graphical Summary image copied.')}
+ catch(e){alert('Could not copy image. Use Download Result PNG instead. '+e.message)}
+}
+async function downloadGraphicalSummaryImage(){
+ try{const c=await makeGraphicalSummaryCanvas(),a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='Graphical-Summary.png';a.click()}
+ catch(e){alert('Could not create Graphical Summary PNG. '+e.message)}
+}
+function printGraphicalSummary(){
+ const style=document.createElement('style');style.id='summaryPrintStyle';style.textContent='@media print{body *{visibility:hidden!important}#summaryExportArea,#summaryExportArea *{visibility:visible!important}#summaryExportArea{position:absolute!important;left:0!important;top:0!important;width:100%!important}.normality-output-actions{display:none!important}}';
+ document.head.appendChild(style);window.addEventListener('afterprint',()=>style.remove(),{once:true});window.print();setTimeout(()=>style.remove(),1500);
+}
+
+
+function multipleGraphicalSummaryText(){
+ if(!lastGraphicalComparison.length)return 'No Multiple Graphical Summary is available. Generate the comparison first.';
+ const f=v=>Number.isFinite(v)?v.toFixed(4):'N/A';
+ return ['MULTIPLE PROCESS COMPARISON',...lastGraphicalComparison.map(x=>`${x.name}: N=${x.summary.n}; Mean=${f(x.summary.mean)}; StDev=${f(x.summary.sd)}; Min=${f(x.summary.min)}; Max=${f(x.summary.max)}`),'Histograms share common bin boundaries and highlight shared overlap regions in a separate color. Normal curves are fitted separately for each selected process.'].join('\n');
+}
+function copyMultipleGraphicalSummary(){copyText(multipleGraphicalSummaryText(),'Multiple Graphical Summary copied as text.')}
+async function makeMultipleGraphicalSummaryCanvas(){
+ if(!window.html2canvas)throw Error('html2canvas is not available. Connect to the internet and try again.');
+ return await html2canvas($('mgsReportArea'),{backgroundColor:getComputedStyle(document.body).getPropertyValue('--panel-bg').trim()||'#fff',scale:2,useCORS:true});
+}
+async function copyMultipleGraphicalSummaryImage(){
+ try{const c=await makeMultipleGraphicalSummaryCanvas(),b=await new Promise((res,rej)=>c.toBlob(x=>x?res(x):rej(Error('PNG failed')),'image/png'));if(!navigator.clipboard||!window.ClipboardItem)throw Error('Image clipboard unsupported');await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);alert('Multiple Graphical Summary image copied.')}
+ catch(e){alert('Could not copy image. Use Download Result PNG instead. '+e.message)}
+}
+async function downloadMultipleGraphicalSummaryImage(){
+ try{const c=await makeMultipleGraphicalSummaryCanvas(),a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='Multiple-Graphical-Summary.png';a.click()}
+ catch(e){alert('Could not create Multiple Graphical Summary PNG. '+e.message)}
+}
+function printMultipleGraphicalSummary(){
+ const style=document.createElement('style');style.id='multipleSummaryPrintStyle';style.textContent='@media print{body *{visibility:hidden!important}#mgsReportArea,#mgsReportArea *{visibility:visible!important}#mgsReportArea{position:absolute!important;left:0!important;top:0!important;width:100%!important}}';
+ document.head.appendChild(style);window.addEventListener('afterprint',()=>style.remove(),{once:true});window.print();setTimeout(()=>style.remove(),1500);
+}
+
+
 function updateCapabilityNormalityWarning(){
  const box=$('capNormalityWarning');if(!box)return;
  const col=+$('measureCol').value,current=vals().map(o=>o.v);
@@ -438,10 +1111,10 @@ function updateCapabilityNormalityWarning(){
  box.hidden=false;
  if(lastNormality.reject){
   box.style.borderLeftColor='#dc3545';
-  box.innerHTML=`<strong>Normality Warning:</strong> The Anderson-Darling test for this measurement column rejected the normality assumption (P-Value = ${lastNormality.p<0.0001?'< 0.0001':lastNormality.p.toFixed(4)}, α = ${lastNormality.alpha.toFixed(2)}). Expected PPM / % Reject and normal-based capability interpretation may be misleading. Investigate the distribution and consider an appropriate non-normal capability method.`;
+  box.innerHTML=`<strong>Normality Warning:</strong> The ${normalityMethodName(lastNormality.method)} test for this measurement column rejected the normality assumption (P-Value = ${lastNormality.pText|| (lastNormality.p<0.0001?'< 0.0001':lastNormality.p.toFixed(4))}, α = ${lastNormality.alpha.toFixed(2)}). Expected PPM / % Reject and normal-based capability interpretation may be misleading. Investigate the distribution and consider an appropriate non-normal capability method.`;
  }else{
   box.style.borderLeftColor='#16a34a';
-  box.innerHTML=`<strong>Normality Test Note:</strong> The test did not reject the normality assumption (P-Value = ${lastNormality.p.toFixed(4)}, α = ${lastNormality.alpha.toFixed(2)}). This is not proof of normality; review the histogram and process knowledge as well.`;
+  box.innerHTML=`<strong>Normality Test Note:</strong> The ${normalityMethodName(lastNormality.method)} test did not reject the normality assumption (P-Value = ${lastNormality.pText||lastNormality.p.toFixed(4)}, α = ${lastNormality.alpha.toFixed(2)}). This is not proof of normality; review the histogram and process knowledge as well.`;
  }
 }
 
@@ -680,13 +1353,13 @@ function loadDemo(){
  const skewMean=skewRaw.reduce((a,b)=>a+b,0)/n;
  skewRaw.forEach((v,i)=>D[i][1]=(10+(v-skewMean)).toFixed(4));
  H[1]='Non-normal Demo (Skewed)';
- renderSheet();populateCols();$('measureCol').value='0';if($('normalityMeasureCol'))$('normalityMeasureCol').value='0';
+ renderSheet();populateCols();$('measureCol').value='0';if($('normalityMeasureCol'))$('normalityMeasureCol').value='0';if($('summaryMeasureCol'))$('summaryMeasureCol').value='0';populateMultipleSummaryColumns();
  $('target').value='10';$('tolerance').value='1';$('specMode').value='auto';applyTolerance();$('lsl').value='9';$('usl').value='11';
  runAnalysis();
 }
 function resetAll(){R=DEFAULT_R;C=DEFAULT_C;initData();$('target').value='10';$('tolerance').value='1';$('specMode').value='auto';$('subgroupSize').value='1';applyTolerance();history=[];future=[];lastResult=null;renderSheet();populateCols();$('capStatus').className='tag';$('capStatus').textContent='Awaiting analysis';['cp','cpk','pp','ppk'].forEach(id=>$(id).textContent='—');$('interpretation').textContent='Enter measurement data and run analysis to generate capability results.';$('capTable').innerHTML='<tr><td colspan="4">No analysis yet.</td></tr>';$('summaryTable').innerHTML='<tr><td colspan="4">No analysis yet.</td></tr>';$('analysisNotes').textContent='No analysis has been run.';drawEmptyGraph();$('graphCaption').textContent='Run Analysis to display the process distribution and capability statistics.';undoState()}
 
-window.addEventListener('resize',()=>{if(lastNormality&&$('normalityPanel')&&!$('normalityPanel').hidden)renderNormalityGraphs(lastNormality.values,lastNormality)});
+window.addEventListener('resize',()=>{if(lastNormality&&$('normalityPanel')&&!$('normalityPanel').hidden)renderNormalityGraphs(lastNormality.values,lastNormality);if(lastGraphicalSummary&&$('summaryPanel')&&!$('summaryPanel').hidden)drawGraphicalSummaryCharts(lastGraphicalSummary);if(lastGraphicalComparison.length&&$('multipleSummaryPanel')&&!$('multipleSummaryPanel').hidden)drawGraphicalComparison(lastGraphicalComparison,'multipleComparisonGrid')});
 
 initData();renderSheet();populateCols();setupSpecControls();$('performanceUnit').value='ppm';['histColor','withinColor','overallColor','specColor','targetColor'].forEach(id=>$(id).addEventListener('input',()=>{if(lastResult)renderCapabilityGraph()}));applyTolerance();drawEmptyGraph();undoState();
 </script></body></html>
